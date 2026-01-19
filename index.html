@@ -1,1 +1,176 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Visuals | Profi Thumbnail & Edit</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #52ff52; /* Minecraft zöld */
+            --bg: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text: #ffffff;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--primary);
+            text-shadow: 0 0 20px rgba(82, 255, 82, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 600px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: -50px auto 50px;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: black;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: #fff;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #050505;
+            color: #666;
+        }
+
+        .badge {
+            background: #ff4444;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="hero-title">MC Visuals</h1>
+        <p class="hero-subtitle">Emeld a YouTube csatornád a következő szintre profi Minecraft designnal és vágással!</p>
+        <a href="#shop" class="btn">Nézd meg a kínálatot</a>
+    </header>
+
+    <div class="container" id="shop">
+        <div class="grid">
+            <div class="card">
+                <i class="fas fa-image"></i>
+                <h2>Pro Thumbnail</h2>
+                <p>Kattintásvadász (CTR optimalizált), egyedi renderelt karakterekkel és effektekkel.</p>
+                <div class="price">1.500 Ft <small>/ db</small></div>
+                <ul style="list-style: none; padding: 0; text-align: left;">
+                    <li><i class="fas fa-check" style="color: var(--primary)"></i> 4K Felbontás</li>
+                    <li><i class="fas fa-check" style="color: var(--primary)"></i> Ingyenes javítás</li>
+                    <li><i class="fas fa-check" style="color: var(--primary)"></i> 24 órás szállítás</li>
+                </ul>
+                <a href="https://discord.gg/YOUR_LINK" class="btn">Megrendelem</a>
+            </div>
+
+            <div class="card">
+                <i class="fas fa-video"></i>
+                <h2>Pro Video Edit <span class="badge">NÉPSZERŰ</span></h2>
+                <p>Pörgős vágás, feliratok, hang effektek és zene licenccel. Legyen élmény a nézés!</p>
+                <div class="price">5.000 Ft-tól</div>
+                <ul style="list-style: none; padding: 0; text-align: left;">
+                    <li><i class="fas fa-check" style="color: var(--primary)"></i> Dinamikus vágás</li>
+                    <li><i class="fas fa-check" style="color: var(--primary)"></i> Színkorrekció</li>
+                    <li><i class="fas fa-check" style="color: var(--primary)"></i> Shorts/TikTok verzió</li>
+                </ul>
+                <a href="https://discord.gg/YOUR_LINK" class="btn">Érdekel</a>
+            </div>
+
+            <div class="card">
+                <i class="fas fa-box-open"></i>
+                <h2>Full Creator Csomag</h2>
+                <p>4 thumbnail + 1 vágott videó havonta. A legolcsóbb megoldás komoly videósoknak.</p>
+                <div class="price">9.990 Ft <small>/ hó</small></div>
+                <a href="https://discord.gg/YOUR_LINK" class="btn">Előfizetek</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 MC Visuals Design Studio - Minden jog fenntartva.</p>
+        <p>Discord: Felhasznaloneved#0001</p>
+    </footer>
+
+</body>
+</html>

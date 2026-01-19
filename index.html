@@ -3,92 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MC Visuals | Profi Vágás & Design</title>
+    <title>TVE | Thumbnail & Video Editing</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #52ff52;
-            --bg: #121212;
-            --card-bg: #1e1e1e;
+            --primary: #52ff52; /* Minecraft Zöld */
+            --bg: #0d0d0d;
+            --card-bg: #161616;
             --text: #ffffff;
+            --discord-color: #5865F2;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
 
         body {
             background-color: var(--bg);
             color: var(--text);
-            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* FIX DISCORD GOMB A SAROKBAN */
+        /* FIX DISCORD GOMB - A SAROKBAN */
         .discord-fixed {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: #5865F2;
+            top: 25px;
+            right: 25px;
+            z-index: 2000;
+            background: var(--discord-color);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
-            transition: 0.3s;
+            gap: 12px;
+            box-shadow: 0 10px 20px rgba(88, 101, 242, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .discord-fixed:hover { transform: scale(1.1); background: #4752c4; }
+        .discord-fixed:hover { transform: scale(1.1) rotate(-2deg); background: #4752c4; }
 
         /* NAVIGÁCIÓ */
         nav {
-            padding: 30px;
-            text-align: center;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         }
         nav a {
             color: white;
             text-decoration: none;
-            margin: 0 20px;
-            font-size: 1.2rem;
-            opacity: 0.6;
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: 0.5;
             transition: 0.3s;
             cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        nav a.active { opacity: 1; border-bottom: 2px solid var(--primary); }
+        nav a:hover { opacity: 1; color: var(--primary); }
+        nav a.active { opacity: 1; border-bottom: 2px solid var(--primary); color: var(--primary); }
 
-        /* OLDALAK KEZELÉSE */
+        /* OLDALAK */
         .page {
             display: none;
-            padding: 50px 20px;
-            max-width: 1200px;
+            padding: 60px 20px;
+            max-width: 1100px;
             margin: 0 auto;
-            animation: fadeIn 0.5s ease;
+            min-height: 70vh;
         }
-        .page.active { display: block; }
+        .page.active { display: block; animation: slideUp 0.6s ease-out; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
 
-        /* VIDEÓ KÁRTYA TRANZÍCIÓ (A rajzod alapján) */
+        /* KEZDŐLAP STÍLUS */
+        .hero { text-align: center; margin-top: 50px; }
+        .hero h1 { font-size: 4rem; margin-bottom: 20px; letter-spacing: -2px; }
+        .hero span { color: var(--primary); text-shadow: 0 0 15px rgba(82, 255, 82, 0.5); }
+
+        /* KÁRTYA RENDSZER (A RAJZOD ALAPJÁN) */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
         .card-container {
-            width: 350px;
-            height: 250px;
+            height: 300px;
             perspective: 1000px;
-            margin: 20px auto;
         }
 
         .card-inner {
             position: relative;
             width: 100%;
             height: 100%;
-            text-align: center;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
         }
 
-        .card-container.flipped .card-inner {
-            transform: rotateY(180deg);
-        }
+        .card-container.flipped .card-inner { transform: rotateY(180deg); }
 
         .card-front, .card-back {
             position: absolute;
@@ -96,47 +113,54 @@
             height: 100%;
             backface-visibility: hidden;
             background: var(--card-bg);
-            border-radius: 20px;
-            border: 2px solid #333;
+            border-radius: 25px;
+            border: 2px solid #222;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
 
-        .card-back {
-            transform: rotateY(180deg);
-            border-color: var(--primary);
-        }
+        .card-back { transform: rotateY(180deg); border-color: var(--primary); }
 
-        .btn-green {
-            background: #52ff52;
+        .card-front h2 { font-size: 2rem; margin-bottom: 10px; }
+        .card-front p { color: #888; margin-bottom: 20px; }
+
+        .btn-action {
+            background: var(--primary);
             color: black;
             border: none;
-            padding: 10px 25px;
-            border-radius: 5px;
-            font-weight: bold;
+            padding: 12px 35px;
+            border-radius: 10px;
+            font-weight: 800;
             cursor: pointer;
-            margin-top: 15px;
             text-transform: uppercase;
+            transition: 0.3s;
         }
+        .btn-action:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(82, 255, 82, 0.4); }
 
-        /* RÓLUNK RÉSZ */
-        .about-box {
+        /* RÓLUNK SZEKCIÓ */
+        .about-content {
             background: var(--card-bg);
             padding: 40px;
-            border-radius: 20px;
-            line-height: 1.8;
-            border-left: 5px solid var(--primary);
+            border-radius: 30px;
+            border: 1px solid #222;
+            text-align: center;
         }
 
-        h1 { margin-bottom: 30px; color: var(--primary); }
+        footer {
+            text-align: center;
+            padding: 60px;
+            opacity: 0.4;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 
-    <a href="https://discord.gg/A_TE_LINKED" class="discord-fixed">
+    <a href="https://discord.gg/A_TE_SZERVERED" target="_blank" class="discord-fixed">
         <i class="fab fa-discord"></i> DISCORD
     </a>
 
@@ -147,54 +171,85 @@
     </nav>
 
     <div id="home" class="page active">
-        <h1>Üdv az MC Visuals-nál!</h1>
-        <p>Ahol a Minecraft videóid új életre kelnek. Válogass szolgáltatásaink közül!</p>
+        <div class="hero">
+            <h1>TVE <span>ThumbnailVideoEditing</span></h1>
+            <p>Változtasd a nyers felvételeidet profi, kattintásvadász tartalomra.</p>
+            <div style="margin-top: 40px;">
+                <button class="btn-action" onclick="showPage('shop')">Lássuk a választékot</button>
+            </div>
+        </div>
     </div>
 
     <div id="shop" class="page">
-        <h1>Szolgáltatások</h1>
-        <div class="card-container" id="videoCard">
-            <div class="card-inner">
-                <div class="card-front">
-                    <h2>VIDEÓ VÁGÁS</h2>
-                    <p>profi effektek, zene, vágás</p>
-                    <button class="btn-green" onclick="flipCard()">ÉRDEKEL</button>
+        <h1 style="text-align: center; margin-bottom: 40px;">Szolgáltatásaink</h1>
+        
+        <div class="shop-grid">
+            <div class="card-container" id="videoCard">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <i class="fas fa-video" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                        <h2>VIDEÓ VÁGÁS</h2>
+                        <p>smooth átmenetek, fize senet</p>
+                        <button class="btn-action" onclick="flip('videoCard')">ÉRDEKEL</button>
+                    </div>
+                    <div class="card-back">
+                        <h3>ÁRLISTA</h3>
+                        <p style="margin: 10px 0;">0-5 perc: <strong>750 Ft / perc</strong></p>
+                        <p style="margin: 10px 0;">6-20 perc: <strong>500 Ft / perc</strong></p>
+                        <button class="btn-action" style="margin-top: 15px;" onclick="window.location.href='https://discord.gg/A_TE_SZERVERED'">MEGRENDELEM!</button>
+                        <span style="margin-top: 15px; font-size: 0.8rem; cursor: pointer; color: #666;" onclick="flip('videoCard')">Vissza</span>
+                    </div>
                 </div>
-                <div class="card-back">
-                    <h3>ÁRLISTA</h3>
-                    <p>0-5 perc: 750 Ft / perc</p>
-                    <p>6-20 perc: 500 Ft / perc</p>
-                    <button class="btn-green" onclick="window.location.href='https://discord.gg/LINK'">MEGRENDELEM!</button>
-                    <p style="font-size: 0.8rem; margin-top: 10px; cursor:pointer;" onclick="flipCard()">← vissza</p>
+            </div>
+
+            <div class="card-container" id="thumbCard">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <i class="fas fa-image" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                        <h2>THUMBNAIL</h2>
+                        <p>Minecraft & Gaming képek</p>
+                        <button class="btn-action" onclick="flip('thumbCard')">ÉRDEKEL</button>
+                    </div>
+                    <div class="card-back">
+                        <h3>ÁRLISTA</h3>
+                        <p style="margin: 10px 0;">Alap Thumbnail: <strong>1.500 Ft</strong></p>
+                        <p style="margin: 10px 0;">Pro (3D Render): <strong>2.500 Ft</strong></p>
+                        <button class="btn-action" style="margin-top: 15px;" onclick="window.location.href='https://discord.gg/A_TE_SZERVERED'">MEGRENDELEM!</button>
+                        <span style="margin-top: 15px; font-size: 0.8rem; cursor: pointer; color: #666;" onclick="flip('thumbCard')">Vissza</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="about" class="page">
-        <h1>Rólunk</h1>
-        <div class="about-box">
-            <p>Több mint 3 éve foglalkozunk Minecraft tartalomgyártók segítésével. Célunk, hogy a te csatornád is úgy nézzen ki, mint a legnagyobbaké!</p>
-            <p>Eddig több mint 100+ elégedett ügyféllel dolgoztunk együtt.</p>
+        <h1 style="text-align: center; margin-bottom: 40px;">Rólunk</h1>
+        <div class="about-content">
+            <p style="font-size: 1.2rem;">A <strong>TVE (ThumbnailVideoEditing)</strong> csapata azért jött létre, hogy segítse a kisebb és nagyobb tartalomgyártókat a kitűnésben.</p>
+            <p style="margin-top: 20px;">Mi nem csak vágunk, hanem stílust adunk a csatornádnak. Gyorsaság, minőség és kreativitás – ez a TVE.</p>
         </div>
     </div>
 
+    <footer>
+        <p>&copy; 2026 TVE - ThumbnailVideoEditing. Minden jog fenntartva.</p>
+    </footer>
+
     <script>
-        // Oldalváltó funkció
+        // OLDALAK KÖZÖTTI VÁLTÁS
         function showPage(pageId) {
-            // Összes oldal elrejtése
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            // Összes link inaktívvá tétele
-            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
             
-            // Kiválasztott oldal és link aktiválása
             document.getElementById(pageId).classList.add('active');
             document.getElementById('link-' + pageId).classList.add('active');
+            
+            // Görgetés az elejére váltáskor
+            window.scrollTo(0, 0);
         }
 
-        // Kártya megfordító (a rajzodhoz)
-        function flipCard() {
-            document.getElementById('videoCard').classList.toggle('flipped');
+        // KÁRTYA MEGFORDÍTÁSA
+        function flip(cardId) {
+            document.getElementById(cardId).classList.toggle('flipped');
         }
     </script>
 </body>

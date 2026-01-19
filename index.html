@@ -1,1 +1,265 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TVE | Thumbnail & Video Editing</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Oxanium:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-neon: #39FF14;
+            --bg-dark: #0a0a0a;
+            --card-dark: #1a1a1a;
+            --text-light: #e0e0e0;
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Oxanium', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* FELSŐ VEZÉRLŐK (Discord + Nyelv) */
+        .top-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .lang-switch {
+            background: #222;
+            color: white;
+            border: 1px solid var(--primary-neon);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .lang-switch:hover { background: var(--primary-neon); color: black; }
+
+        .discord-fixed {
+            background: #5865F2;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.5);
+            transition: 0.3s;
+        }
+        .discord-fixed:hover { transform: scale(1.05); }
+
+        /* NAVIGÁCIÓ */
+        .navbar {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-neon);
+            background: rgba(0,0,0,0.9);
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .navbar a:hover { color: var(--primary-neon); }
+
+        /* OLDALAK */
+        .page { display: none; padding: 100px 20px; text-align: center; }
+        .page.active { display: block; animation: fadeIn 0.5s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            color: var(--primary-neon);
+            text-shadow: 0 0 20px var(--primary-neon);
+            margin-bottom: 20px;
+        }
+
+        /* KÁRTYA */
+        .card-container {
+            width: 380px;
+            height: 320px; /* Megemeltem a magasságot az új ár miatt */
+            perspective: 1000px;
+            margin: 50px auto;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .card-container.flipped .card-inner { transform: rotateY(180deg); }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: var(--card-dark);
+            border: 2px solid #333;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card-back { transform: rotateY(180deg); border-color: var(--primary-neon); }
+
+        .btn {
+            background: var(--primary-neon);
+            color: black;
+            padding: 10px 25px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn:hover { box-shadow: 0 0 20px var(--primary-neon); transform: scale(1.05); }
+
+        .price-list { text-align: left; margin-top: 10px; font-size: 1.1rem; }
+        .price-list p { margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="top-controls">
+        <button class="lang-switch" onclick="toggleLanguage()">HU | EN</button>
+        <a href="https://discord.gg/A_TE_SZERVERED" class="discord-fixed">
+            <i class="fab fa-discord"></i> DISCORD
+        </a>
+    </div>
+
+    <nav class="navbar">
+        <a onclick="showPage('home')" id="nav-home">Kezdőlap</a>
+        <a onclick="showPage('shop')" id="nav-shop">Webshop</a>
+        <a onclick="showPage('about')" id="nav-about">Rólunk</a>
+    </nav>
+
+    <div id="home" class="page active">
+        <h1 class="hero-title">TVE</h1>
+        <p style="font-size: 1.5rem;" id="hero-subtitle">ThumbnailVideoEditing</p>
+        <p style="margin-top: 20px; color: #888;" id="hero-desc">Profi Minecraft tartalomgyártás, ahogy te akarod.</p>
+    </div>
+
+    <div id="shop" class="page">
+        <h1 class="hero-title" id="shop-title">WEBSHOP</h1>
+        
+        <div class="card-container" id="videoCard">
+            <div class="card-inner">
+                <div class="card-front">
+                    <h2 style="font-family: 'Orbitron';" id="card-title">VIDEÓ VÁGÁS</h2>
+                    <p style="margin-top: 10px; color: #888;" id="card-desc">smooth átmenet, fize senet</p>
+                    <button class="btn" onclick="flipCard()" id="btn-interest">ÉRDEKEL</button>
+                </div>
+                <div class="card-back">
+                    <div class="price-list">
+                        <p id="p1">0-5 perc alatt: <span style="color:var(--primary-neon)">750Ft/perc</span></p>
+                        <p id="p2">6-20 perc: <span style="color:var(--primary-neon)">500Ft/perc</span></p>
+                        <p id="p3">20+ perc: <span style="color:var(--primary-neon)">350Ft/perc</span></p>
+                    </div>
+                    <button class="btn" onclick="window.location.href='https://discord.gg/A_TE_SZERVERED'" id="btn-order">MEGRENDELEM!</button>
+                    <p style="margin-top: 15px; font-size: 0.8rem; cursor: pointer; color: #555;" onclick="flipCard()" id="btn-back">vissza</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="about" class="page">
+        <h1 class="hero-title" id="about-title">RÓLUNK</h1>
+        <p style="max-width: 600px; margin: 0 auto; line-height: 2;" id="about-text">A TVE csapata elkötelezett a minőségi Minecraft vágás mellett. Keress minket Discordon a részletekért!</p>
+    </div>
+
+    <script>
+        let currentLang = 'hu';
+
+        const translations = {
+            hu: {
+                home: "Kezdőlap", shop: "Webshop", about: "Rólunk",
+                heroSubtitle: "ThumbnailVideoEditing",
+                heroDesc: "Profi Minecraft tartalomgyártás, ahogy te akarod.",
+                shopTitle: "WEBSHOP",
+                cardTitle: "VIDEÓ VÁGÁS",
+                cardDesc: "smooth átmenet, fize senet",
+                btnInterest: "ÉRDEKEL",
+                p1: "0-5 perc alatt: ", p2: "6-20 perc: ", p3: "20+ perc: ",
+                btnOrder: "MEGRENDELEM!",
+                btnBack: "vissza",
+                aboutTitle: "RÓLUNK",
+                aboutText: "A TVE csapata elkötelezett a minőségi Minecraft vágás mellett. Keress minket Discordon a részletekért!"
+            },
+            en: {
+                home: "Home", shop: "Shop", about: "About",
+                heroSubtitle: "ThumbnailVideoEditing",
+                heroDesc: "Professional Minecraft content creation, exactly as you want it.",
+                shopTitle: "STORE",
+                cardTitle: "VIDEO EDITING",
+                cardDesc: "smooth transitions, quality work",
+                btnInterest: "INTERESTED",
+                p1: "0-5 mins: ", p2: "6-20 mins: ", p3: "20+ mins: ",
+                btnOrder: "ORDER NOW!",
+                btnBack: "back",
+                aboutTitle: "ABOUT US",
+                aboutText: "The TVE team is dedicated to high-quality Minecraft editing. Find us on Discord for details!"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'hu' ? 'en' : 'hu';
+            updateUI();
+        }
+
+        function updateUI() {
+            const t = translations[currentLang];
+            document.getElementById('nav-home').innerText = t.home;
+            document.getElementById('nav-shop').innerText = t.shop;
+            document.getElementById('nav-about').innerText = t.about;
+            document.getElementById('hero-subtitle').innerText = t.heroSubtitle;
+            document.getElementById('hero-desc').innerText = t.heroDesc;
+            document.getElementById('shop-title').innerText = t.shopTitle;
+            document.getElementById('card-title').innerText = t.cardTitle;
+            document.getElementById('card-desc').innerText = t.cardDesc;
+            document.getElementById('btn-interest').innerText = t.btnInterest;
+            document.getElementById('p1').innerHTML = `${t.p1} <span style="color:var(--primary-neon)">750Ft/min</span>`;
+            document.getElementById('p2').innerHTML = `${t.p2} <span style="color:var(--primary-neon)">500Ft/min</span>`;
+            document.getElementById('p3').innerHTML = `${t.p3} <span style="color:var(--primary-neon)">350Ft/min</span>`;
+            document.getElementById('btn-order').innerText = t.btnOrder;
+            document.getElementById('btn-back').innerText = t.btnBack;
+            document.getElementById('about-title').innerText = t.aboutTitle;
+            document.getElementById('about-text').innerText = t.aboutText;
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function flipCard() {
+            document.getElementById('videoCard').classList.toggle('flipped');
+        }
+    </script>
+</body>
+</html>
